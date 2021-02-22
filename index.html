@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+  <head>
+    <title>fixedpoint.html</title>
+    <meta charset = "UTF-8" />
+  </head>
+  <body>
+    <h1>Fixed Point Method</h1>
+    <form id="FPM">
+        <label for="P0">P0:</label><br>
+        <input type="text" id="P0" name="P0"><br>
+        <label for="tol">Tolerance:</label><br>
+        <input type="text" id="tol" name="tol"><br>
+        <label for="fx">Function:</label><br>
+        <input type="text" id="fx" name="fx"><br>
+        <label for="iter">Max Iterations:</label><br>
+        <input type="text" id="iter" name="iter"><br><br>
+      </form>
+      <button onclick="myFunction()">Submit</button>
+      <p id="calculation"></p>
+<!-- JavaScript for the calculations -->
+<script>
+    function myFunction() {
+ 
+        var x = document.getElementById("FPM");
+        
+
+        var p0 = x.elements[0].value;
+        var tol = x.elements[1].value;
+        var fx = x.elements[2].value;
+        var iter = x.elements[3].value;
+        
+        fxinit(fx);
+        
+       document.getElementById("calculation").innerHTML = fx;
+
+
+    }
+    function fxinit(fx){
+        const node = math.parse(fx);
+    }
+    </script>
+</body>
+</html>
