@@ -3,12 +3,15 @@
   <head>
     <title>fixedpoint.html</title>
     <meta charset = "UTF-8" />
+    <script src="https://unpkg.com/mathjs@9.2.0/lib/browser/math.js"></script>
   </head>
   <body>
     <h1>Fixed Point Method</h1>
     <form id="FPM">
-        <label for="P0">P0:</label><br>
-        <input type="text" id="P0" name="P0"><br>
+        <label for="lower">Lower Bound:</label><br>
+        <input type="text" id="lower" name="lower"><br>
+        <label for="upper">Upper Bound:</label><br>
+        <input type="text" id="upper" name="upper"><br>
         <label for="tol">Tolerance:</label><br>
         <input type="text" id="tol" name="tol"><br>
         <label for="fx">Function:</label><br>
@@ -18,26 +21,106 @@
       </form>
       <button onclick="myFunction()">Submit</button>
       <p id="calculation"></p>
+
 <!-- JavaScript for the calculations -->
-<script>
+<script type="text/javascript">
+  
     function myFunction() {
- 
+        const parser = math.parser()
+
         var x = document.getElementById("FPM");
         
 
-        var p0 = x.elements[0].value;
-        var tol = x.elements[1].value;
-        var fx = x.elements[2].value;
-        var iter = x.elements[3].value;
+        var lower = x.elements[0].value;
+        var upper = x.elements[1].value;
+        var tol = x.elements[2].value;
+        var fx = x.elements[3].value;
+        var iter = x.elements[4].value;
         
-        fxinit(fx);
-        
-       document.getElementById("calculation").innerHTML = fx;
+        signCheck(lower, upper, fx);
 
+        let scope = {
+          a: lower,
+          b: upper
+        }
+
+       // const node = math.parse(fx)         // parse expression into a node tree
+       // const code = node.compile()           // compile the node tree
+       // const fa = code.evaluate(scope) 
+       // const fdd = math.evaluate('a+b', scope)
+
+       // document.getElementById("calculation").innerHTML = fdd;
+        text = "";
+        for (var i = 1; i < 10; i++){
+          
+          var p = division(lower, upper);
+          text += "P" + i + "=" + p + "<br>";
+
+          fp = fxCalc(p);
+
+          fa = fxCalc(lower);
+
+          if (fp === 0 || division(lower, upper) < 10^-4){
+            document.getElementById("calculation").innerHTML = text;
+          }
+          else if (signCheck(fxCalc(lower, upper, fx)) > 0){
+            lower = p;
+            fa = fp;
+          }
+          else{
+            upper = p
+          }
+          }   
+        
 
     }
-    function fxinit(fx){
-        const node = math.parse(fx);
+    function signCheck(lower, upper, fx){ //checks the sign 
+    
+      let scope = {
+        a: fxCalc(lower),
+        b: fxCalc(upper)
+      }
+      return math.evaluate('a*b', scope) 
+       
+    }
+
+    function fxCalc(fx, a){ //calculates the lower bound at f
+      let scope = {
+        x: a
+      }
+      const node = math.parse(fx)         // parse expression into a node tree
+      const code = node.compile()           // compile the node tree
+      const result = code.evaluate(scope)
+      return result
+    }
+    function add(lower, upper){ //calculates lower + upper
+      let scope = {
+          a: lower,
+          b: upper
+        }
+        return math.evaluate('a+b', scope)
+    }
+    function subtract(lower, upper){
+      let scope = {
+        a: lower,
+        b: upper
+      }
+      return math.evaluate('b-a', scope)
+    }
+    function division1(lower, upper){
+      let scope = {
+        a: subtract(lower, upper),
+        b: 2
+      }
+      return math.evaluate('a/b', scope)
+    }
+    }
+    function division(lower, upper){
+      let scope = {
+        a: add(lower, upper),
+        b: 2
+      }
+      return math.evaluate('a/b', scope)
     }
     </script>
 </body>
