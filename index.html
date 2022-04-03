@@ -37,12 +37,14 @@
               <input type="text" id="lower" name="lower"><br>
               <label for="upper">Upper Bound:</label><br>
               <input type="text" id="upper" name="upper"><br>
-              <label for="tol">Tolerance:</label><br>
-              <input type="text" id="tol" name="tol"><br>
               <label for="fx">Function:</label><br>
               <input type="text" id="fx" name="fx"><br>
+
+              <label for="tol">Tolerance:</label><br>
+              <input type="text" placeholder="Optional" id="tol" name="tol"><br>
+              
               <label for="iter">Max Iterations:</label><br>
-              <input type="text" id="iter" name="iter"><br><br>
+              <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
             </form>
             <button onclick="Bisection()">Submit</button>
             <p id="calculation"></p>
@@ -75,9 +77,8 @@
 
         let lower = Number(x.elements[0].value).toFixed(6);
         let upper = Number(x.elements[1].value).toFixed(6);
-        let tol = x.elements[2].value;
-        let fx = x.elements[3].value;
-
+        let fx = x.elements[2].value;
+        let tol = x.elements[3].value;
         let iter = x.elements[4].value;
         
         text = "";
@@ -136,14 +137,7 @@
       let scope = {
         x: a
       }
-      //const node = math.parse(fx)         // parse expression into a node tree
-      //const code = node.compile()           // compile the node tree
-
-      //const code = math.compile(fx);
-      //const result = code.evaluate(scope);
-
       const result = math.evaluate(fx, scope)
-
 
       return result
     }
