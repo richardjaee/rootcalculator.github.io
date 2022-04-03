@@ -6,7 +6,7 @@
     <script src="https://unpkg.com/mathjs@9.2.0/lib/browser/math.js"></script>
   </head>
   <body>
-    <h1>Fixed Point Method</h1>
+    <h1>Bisection Method</h1>
     <form id="FPM">
         <label for="lower">Lower Bound:</label><br>
         <input type="text" id="lower" name="lower"><br>
@@ -26,102 +26,88 @@
 <script type="text/javascript">
   
     function myFunction() {
+
         const parser = math.parser()
 
         var x = document.getElementById("FPM");
         
 
-        var lower = x.elements[0].value;
-        var upper = x.elements[1].value;
-        var tol = x.elements[2].value;
-        var fx = x.elements[3].value;
-        var iter = x.elements[4].value;
+        let lower = Number(x.elements[0].value).toFixed(5);
+        let upper = Number(x.elements[1].value).toFixed(5);
+        let tol = x.elements[2].value;
+        let fx = x.elements[3].value;
+
+        let iter = x.elements[4].value;
         
-        signCheck(lower, upper, fx);
-
-        let scope = {
-          a: lower,
-          b: upper
-        }
-
-       // const node = math.parse(fx)         // parse expression into a node tree
-       // const code = node.compile()           // compile the node tree
-       // const fa = code.evaluate(scope) 
-       // const fdd = math.evaluate('a+b', scope)
-
-       // document.getElementById("calculation").innerHTML = fdd;
         text = "";
-        for (var i = 1; i < 10; i++){
+
+        // Checks 
+        fa = fxCalc(fx, lower);
+        fb = fxCalc(fx, upper);
+
+        if (fa*fb>0)
+        {
+          text+= "f(a) and f(b) have the same signs " + "<br>";
+          document.getElementById("calculation").innerHTML = text;
+          return;
+        }
+        //
+
+      
+
+
+        if (tol === "") { tol = 0.00001; }
+        if (iter === "") { iter = 21; }
+
+        let p = 0;
+
+        for (var i = 1; i < iter; i++){
           
-          var p = division(lower, upper);
-          text += "P" + i + "=" + p + "<br>";
+          p = ((parseFloat(lower)+parseFloat(upper))/(2)).toFixed(5);
+          text += "P " + i + "= " + p + "<br>";
 
-          fp = fxCalc(p);
+          fp = fxCalc(fx, p);
+          fa = fxCalc(fx, lower);
 
-          fa = fxCalc(lower);
+          let condition2 = ((parseFloat(upper)-parseFloat(lower))/(2)).toFixed(5);
 
-          if (fp === 0 || division(lower, upper) < 10^-4){
+          if (fp === 0 || condition2 < tol)
+          { 
+            text+= "Finished in " + i + " iteration(s)" + "<br>";
             document.getElementById("calculation").innerHTML = text;
+            break;
           }
-          else if (signCheck(fxCalc(lower, upper, fx)) > 0){
+
+          else if ( fa*fp > 0)
+          {
             lower = p;
             fa = fp;
           }
-          else{
-            upper = p
-          }
-          }   
-        
 
-    }
-    function signCheck(lower, upper, fx){ //checks the sign 
+          else { upper = p; }
+        } 
+
+        document.getElementById("calculation").innerHTML = text;  
+    } 
     
-      let scope = {
-        a: fxCalc(lower),
-        b: fxCalc(upper)
-      }
-      return math.evaluate('a*b', scope) 
-       
-    }
 
-    function fxCalc(fx, a){ //calculates the lower bound at f
+    function fxCalc(fx, a){ //calculates f(x)
       let scope = {
         x: a
       }
-      const node = math.parse(fx)         // parse expression into a node tree
-      const code = node.compile()           // compile the node tree
-      const result = code.evaluate(scope)
+      //const node = math.parse(fx)         // parse expression into a node tree
+      //const code = node.compile()           // compile the node tree
+
+      //const code = math.compile(fx);
+      //const result = code.evaluate(scope);
+
+      const result = math.evaluate(fx, scope)
+
+
       return result
     }
-    function add(lower, upper){ //calculates lower + upper
-      let scope = {
-          a: lower,
-          b: upper
-        }
-        return math.evaluate('a+b', scope)
-    }
-    function subtract(lower, upper){
-      let scope = {
-        a: lower,
-        b: upper
-      }
-      return math.evaluate('b-a', scope)
-    }
-    function division1(lower, upper){
-      let scope = {
-        a: subtract(lower, upper),
-        b: 2
-      }
-      return math.evaluate('a/b', scope)
-    }
-    }
-    function division(lower, upper){
-      let scope = {
-        a: add(lower, upper),
-        b: 2
-      }
-      return math.evaluate('a/b', scope)
-    }
+  
+    
     </script>
 </body>
 </html>
