@@ -30,17 +30,15 @@
     <div class="herosection">
       <div class="div1">
         <div class="headerdiv">
-          <div class="heroTitle">Bisection Method</div>
+          <div class="heroTitle">Newton's Method</div>
           <div class="heroSubtitle">
             <form id="FPM">
-              <label for="lower">Lower Bound:</label><br>
-              <input type="text" id="lower" name="lower"><br>
-              <label for="upper">Upper Bound:</label><br>
-              <input type="text" id="upper" name="upper"><br>
+              <label for="lower">Initial Point:</label><br>
+              <input type="text" id="p0" name="lower"><br>
+              <label for="upper">Function:</label><br>
+              <input type="text" id="fx" name="upper"><br>
               <label for="tol">Tolerance:</label><br>
               <input type="text" id="tol" name="tol"><br>
-              <label for="fx">Function:</label><br>
-              <input type="text" id="fx" name="fx"><br>
               <label for="iter">Max Iterations:</label><br>
               <input type="text" id="iter" name="iter"><br><br>
             </form>
@@ -73,77 +71,65 @@
         var x = document.getElementById("FPM");
         
 
-        let lower = Number(x.elements[0].value).toFixed(5);
-        let upper = Number(x.elements[1].value).toFixed(5);
+        let p0 = Number(x.elements[0].value).toFixed(5);
+        let fx = x.elements[1].value;
         let tol = x.elements[2].value;
-        let fx = x.elements[3].value;
-
-        let iter = x.elements[4].value;
+        let iter = x.elements[3].value;
         
         text = "";
-
-        // Checks 
-        fa = fxCalc(fx, lower);
-        fb = fxCalc(fx, upper);
-
-        if (fa*fb>0)
-        {
-          text+= "f(a) and f(b) have the same signs " + "<br>";
-          document.getElementById("calculation").innerHTML = text;
-          return;
-        }
-        //
-
       
 
 
         if (tol === "") { tol = 0.00001; }
-        if (iter === "") { iter = 20; }
+        if (iter === "") { iter = 21; }
 
         let p = 0;
 
-        for (var i = 1; i <= iter; i++){
+        for (var i = 1; i < iter; i++)
+        {
+
+          fp = fxCalc(fx,p0);
+          dfp = dfxCalc(fx,p0);
           
-          p = ((parseFloat(lower)+parseFloat(upper))/(2)).toFixed(5);
-          text += "P " + i + " = " + p + "<br>";
+          p = parseFloat(p0)-( parseFloat(fp) / parseFloat(dfp) );
 
-          fp = fxCalc(fx, p);
-          fa = fxCalc(fx, lower);
-
-          let condition2 = ((parseFloat(upper)-parseFloat(lower))/(2)).toFixed(5);
-
-          if (fp === 0 || condition2 < tol)
-          { 
-            text+= "Finished in " + i + " iteration(s)" + "<br>";
+          text += "P" + i + " = " + p + "<br>";
+          
+          let q = Math.abs(parseFloat(p)-parseFloat(p0));
+          //text += "ABS = " + q + "<br>";
+          
+          if (q < tol)
+          {
+            text += "q = " + q + " Finished in " + i + " iteration(s)" + "<br>";
             document.getElementById("calculation").innerHTML = text;
             break;
           }
+          
 
-          else if ( fa*fp > 0)
-          {
-            lower = p;
-            fa = fp;
-          }
+          p0 = p;
+          
+          //((parseFloat(lower)+parseFloat(upper))/(2)).toFixed(5);
 
-          else { upper = p; }
+
         } 
 
         document.getElementById("calculation").innerHTML = text;  
     } 
     
-    //calculates f(x)
-    function fxCalc(fx, a){ 
+
+    function fxCalc(fx, a){ //calculates f(x)
       let scope = {
         x: a
       }
-      //const node = math.parse(fx)         // parse expression into a node tree
-      //const code = node.compile()           // compile the node tree
+      const result = math.evaluate(fx, scope);
 
-      //const code = math.compile(fx);
-      //const result = code.evaluate(scope);
-
-      const result = math.evaluate(fx, scope)
-
+      return result
+    }
+    function dfxCalc(fx, a){ //calculates df(x)/x
+      let scope = {
+        x: a
+      }
+      const result = math.derivative(fx,'x').evaluate(scope);
 
       return result
     }

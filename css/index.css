@@ -1,0 +1,118 @@
+  html {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+  }
+  .w-nav-link {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    text-decoration: none;
+    color: #222222;
+    padding: 20px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .navbar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #fff;
+  }
+
+  .nav-link {
+    margin-top: 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+  }
+  
+  .nav-link-2 {
+    margin-top: 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+  }
+  .nav-link-3 {
+    margin-top: 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+  }
+  
+  .herosection {
+    height: 500px;
+    background-color: #fff;
+  }
+  
+  .heroTitle {
+    margin-top: 20px;
+    padding-top: 0px;
+    font-family: Montserrat, sans-serif;
+    color: #333;
+    font-size: 40px;
+    line-height: 50px;
+    font-weight: 500;
+    text-align: left;
+  }
+  
+  .heroSubtitle {
+    display: block;
+    width: 500px;
+    padding-top: 50px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #333;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: left;
+  }
+  
+  .footersection {
+    height: 350px;
+    margin-top: 1000px;
+    background-color: #202024;
+  }
+  
+
+  .footerName {
+    margin-top: 10px;
+    font-family: Montserrat, sans-serif;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .div-block-25 {
+    width: 70%;
+  }
+  
+  .navbarsection {
+    margin-bottom: 10px;
+  }
+
+  .footercol1 {
+    margin-left: 150px;
+    padding-top: 30px;
+  }
+  
+  .div1 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 90px;
+  }
