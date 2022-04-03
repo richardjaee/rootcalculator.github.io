@@ -26,16 +26,28 @@
 <script type="text/javascript">
   
     function myFunction() {
+
+      const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,      
+        maximumFractionDigits: 2,
+      });
+
+
+        
+
         const parser = math.parser()
 
         var x = document.getElementById("FPM");
         
 
-        var lower = x.elements[0].value;
-        var upper = x.elements[1].value;
-        var tol = x.elements[2].value;
-        var fx = x.elements[3].value;
-        var iter = x.elements[4].value;
+        let lower = Number(x.elements[0].value).toFixed(5);
+        let upper = Number(x.elements[1].value).toFixed(5);
+
+        //let lower = parseFloat(x.elements[0].value);
+
+        let tol = Number(x.elements[2].value);
+        let fx = x.elements[3].value;
+        let iter = Number(x.elements[4].value);
         
         signCheck(lower, upper, fx);
 
@@ -50,10 +62,29 @@
        // const fdd = math.evaluate('a+b', scope)
 
        // document.getElementById("calculation").innerHTML = fdd;
+
+        iter = 10; 
+
         text = "";
-        for (var i = 1; i < 10; i++){
+        
+        //lower = lower.toFixed(5);
+
+        
+        let test1 = (lower+upper);
+
+
+
+        text += "lower=" + lower + "<br>";
+        text += "upper=" + test1 + "<br>";
+
+        let p = 0;
+        for (var i = 1; i < iter; i++){
           
-          var p = division(lower, upper);
+          //var p = division(lower, upper);
+
+          p = (lower+upper)/2;
+          
+
           text += "P" + i + "=" + p + "<br>";
 
           fp = fxCalc(p);
