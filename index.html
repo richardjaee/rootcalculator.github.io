@@ -73,8 +73,8 @@
         var x = document.getElementById("FPM");
         
 
-        let lower = Number(x.elements[0].value).toFixed(5);
-        let upper = Number(x.elements[1].value).toFixed(5);
+        let lower = Number(x.elements[0].value).toFixed(6);
+        let upper = Number(x.elements[1].value).toFixed(6);
         let tol = x.elements[2].value;
         let fx = x.elements[3].value;
 
@@ -104,13 +104,13 @@
 
         for (var i = 1; i <= iter; i++){
           
-          p = ((parseFloat(lower)+parseFloat(upper))/(2)).toFixed(5);
+          p = ((parseFloat(lower)+parseFloat(upper))/(2)).toFixed(6);
           text += "P " + i + " = " + p + "<br>";
 
           fp = fxCalc(fx, p);
           fa = fxCalc(fx, lower);
 
-          let condition2 = ((parseFloat(upper)-parseFloat(lower))/(2)).toFixed(5);
+          let condition2 = ((parseFloat(upper)-parseFloat(lower))/(2)).toFixed(6);
 
           if (fp === 0 || condition2 < tol)
           { 

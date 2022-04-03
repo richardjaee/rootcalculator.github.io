@@ -71,7 +71,7 @@
         var x = document.getElementById("FPM");
         
 
-        let p0 = Number(x.elements[0].value).toFixed(5);
+        let p0 = Number(x.elements[0].value).toFixed(6);
         let fx = x.elements[1].value;
         let tol = x.elements[2].value;
         let iter = x.elements[3].value;
@@ -100,7 +100,7 @@
           
           if (q < tol)
           {
-            text += "q = " + q + " Finished in " + i + " iteration(s)" + "<br>";
+            text += "Finished in " + i + " iteration(s)" + "<br>";
             document.getElementById("calculation").innerHTML = text;
             break;
           }

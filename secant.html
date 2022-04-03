@@ -34,9 +34,9 @@
           <div class="heroSubtitle">
             <form id="FPM">
               <label for="lower">P0:</label><br>
-              <input type="text" id="p0" name="lower"><br>
+              <input type="text" id="p0" name="p0"><br>
               <label for="upper">P1:</label><br>
-              <input type="text" id="p1" name="upper"><br>
+              <input type="text" id="p1" name="p1"><br>
               <label for="tol">Tolerance:</label><br>
               <input type="text" id="tol" name="tol"><br>
               <label for="fx">Function:</label><br>
@@ -77,13 +77,12 @@
         let p1 = Number(x.elements[1].value).toFixed(5);
         let tol = x.elements[2].value;
         let fx = x.elements[3].value;
-
         let iter = x.elements[4].value;
         
         text = "";
 
-        fp0 = fxCalc(fx, p0);
-        fp1 = fxCalc(fx, p1);
+        //fp0 = fxCalc(fx, p0);
+        //fp1 = fxCalc(fx, p1);
 
         if (tol === "") { tol = 0.00001; }
         if (iter === "") { iter = 20; }
@@ -91,29 +90,28 @@
         let p = 0;
 
         for (var i = 1; i <= iter; i++){
+
+          fp0 = fxCalc(fx, p0);
+          fp1 = fxCalc(fx, p1);
           
-          //p = (parseFloat(p1) - parseFloat(fp1) * (parseFloat(p1)-parseFloat(p0)) / (parseFloat(fp1) - parseFloat(fp0) )).toFixed(5);
+          p = (parseFloat(p1) - parseFloat(fp1) * (parseFloat(p1)-parseFloat(p0)) / (parseFloat(fp1) - parseFloat(fp0) )).toFixed(6);
 
-          let calc1 = parseFloat(fp1) * (parseFloat(p1)-parseFloat(p0));
-          let calc2 = (parseFloat(fp1) - parseFloat(fp0) )
-          let calc3 = calc1/calc2;
+          //let calc1 = parseFloat(fp1) * (parseFloat(p1)-parseFloat(p0));
+          //let calc2 = (parseFloat(fp1) - parseFloat(fp0) )
+          //let calc3 = calc1/calc2;
 
-          p = p1 - calc3;
+          //p = p1 - calc3;
 
           text += "P " + i + " = " + p + "<br>";
 
-          text += "P0 " + i + " = " + p0 + "<br>";
-          text += "P1 " + i + " = " + p1 + "<br>";
 
-
-          let q = Math.abs(parseFloat(p)-parseFloat(p1));
-          text += "q ABS " + i + " = " + q + "<br>";
+          let q = Math.abs(parseFloat(p)-parseFloat(p1)).toFixed(6);
 
           if (q < tol)
           {
-            text += "q = " + q + " Finished in " + i + " iteration(s)" + "<br>";
+            text += "Finished in " + i + " iteration(s)" + "<br>";
             document.getElementById("calculation").innerHTML = text;
-            break;
+            return;
           }
 
           p0=p1;
