@@ -30,15 +30,17 @@
     <div class="herosection">
       <div class="div1">
         <div class="headerdiv">
-          <div class="heroTitle">Newton's Method</div>
+          <div class="heroTitle">Secant Method</div>
           <div class="heroSubtitle">
             <form id="FPM">
-              <label for="lower">Initial Point:</label><br>
+              <label for="lower">P0:</label><br>
               <input type="text" id="p0" name="lower"><br>
-              <label for="upper">Function:</label><br>
-              <input type="text" id="fx" name="upper"><br>
+              <label for="upper">P1:</label><br>
+              <input type="text" id="p1" name="upper"><br>
               <label for="tol">Tolerance:</label><br>
               <input type="text" id="tol" name="tol"><br>
+              <label for="fx">Function:</label><br>
+              <input type="text" id="fx" name="fx"><br>
               <label for="iter">Max Iterations:</label><br>
               <input type="text" id="iter" name="iter"><br><br>
             </form>
@@ -72,64 +74,65 @@
         
 
         let p0 = Number(x.elements[0].value).toFixed(5);
-        let fx = x.elements[1].value;
+        let p1 = Number(x.elements[1].value).toFixed(5);
         let tol = x.elements[2].value;
-        let iter = x.elements[3].value;
+        let fx = x.elements[3].value;
+
+        let iter = x.elements[4].value;
         
         text = "";
-      
 
+        fp0 = fxCalc(fx, p0);
+        fp1 = fxCalc(fx, p1);
 
         if (tol === "") { tol = 0.00001; }
-        if (iter === "") { iter = 21; }
+        if (iter === "") { iter = 20; }
 
         let p = 0;
 
-        for (var i = 1; i < iter; i++)
-        {
+        for (var i = 1; i <= iter; i++){
+          
+          //p = (parseFloat(p1) - parseFloat(fp1) * (parseFloat(p1)-parseFloat(p0)) / (parseFloat(fp1) - parseFloat(fp0) )).toFixed(5);
 
-          fp = fxCalc(fx,p0);
-          dfp = dfxCalc(fx,p0);
-          
-          p = parseFloat(p0)-( parseFloat(fp) / parseFloat(dfp) );
+          let calc1 = parseFloat(fp1) * (parseFloat(p1)-parseFloat(p0));
+          let calc2 = (parseFloat(fp1) - parseFloat(fp0) )
+          let calc3 = calc1/calc2;
 
-          text += "P" + i + " = " + p + "<br>";
-          
-          let q = Math.abs(parseFloat(p)-parseFloat(p0));
-          //text += "ABS = " + q + "<br>";
-          
+          p = p1 - calc3;
+
+          text += "P " + i + " = " + p + "<br>";
+
+          text += "P0 " + i + " = " + p0 + "<br>";
+          text += "P1 " + i + " = " + p1 + "<br>";
+
+
+          let q = Math.abs(parseFloat(p)-parseFloat(p1));
+          text += "q ABS " + i + " = " + q + "<br>";
+
           if (q < tol)
           {
             text += "q = " + q + " Finished in " + i + " iteration(s)" + "<br>";
             document.getElementById("calculation").innerHTML = text;
             break;
           }
-          
 
-          p0 = p;
-          
-          //((parseFloat(lower)+parseFloat(upper))/(2)).toFixed(5);
-
-
+          p0=p1;
+          p1=p;
+       
         } 
 
+        text += "Method Failed" + "<br>";
         document.getElementById("calculation").innerHTML = text;  
     } 
     
-
-    function fxCalc(fx, a){ //calculates f(x)
+    //calculates f(x)
+    function fxCalc(fx, a){ 
       let scope = {
         x: a
       }
+
       const result = math.evaluate(fx, scope);
 
-      return result
-    }
-    function dfxCalc(fx, a){ //calculates df(x)/x
-      let scope = {
-        x: a
-      }
-      const result = math.derivative(fx,'x').evaluate(scope);
 
       return result
     }
