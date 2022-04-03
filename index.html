@@ -64,7 +64,7 @@
         for (var i = 1; i < iter; i++){
           
           p = ((parseFloat(lower)+parseFloat(upper))/(2)).toFixed(5);
-          text += "P " + i + "= " + p + "<br>";
+          text += "P " + i + " = " + p + "<br>";
 
           fp = fxCalc(fx, p);
           fa = fxCalc(fx, lower);
@@ -90,8 +90,8 @@
         document.getElementById("calculation").innerHTML = text;  
     } 
     
-
-    function fxCalc(fx, a){ //calculates f(x)
+    //calculates f(x)
+    function fxCalc(fx, a){ 
       let scope = {
         x: a
       }
