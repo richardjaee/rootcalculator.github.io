@@ -1,17 +1,19 @@
 <!DOCTYPE HTML>
 <html lang = "en">
   <head>
-    <title>fixedpoint.html</title>
+    <title>Secant Method</title>
     <meta charset = "UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/index.css" rel="stylesheet" type="text/css">
     <script src="https://unpkg.com/mathjs@9.2.0/lib/browser/math.js"></script>
+    <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
   </head>
   <body>
     <div class="navbarsection">
       <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="navbar w-nav">
         <div class="div-block-25">
           <div class="div-block-24">
-            <a href="index.html" class="w-inline-block"><img src="images/Rebound-Logo1.png" loading="lazy" alt=""></a>
+            <a href="index.html" class="w-inline-block"><img src="images/root-256-2.png" loading="lazy" alt=""></a>
           </div>
         </div>
         <div class="container w-container">
@@ -46,13 +48,11 @@
               <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
             </form>
             <button onclick="Bisection()">Submit</button>
+
             <p id="calculation"></p>
-          </form>
-            </div>
-          <div class="div-block-4">
-            
           </div>
         </div>
+        <div id="calculator" style="width: 800px; height: 500px; padding-top: 30px;"></div>
       </div>
     </div>
 
@@ -65,8 +65,27 @@
     </div>
 
 <!-- JavaScript for the calculations -->
+<script>
+  var elt = document.getElementById('calculator');
+  var calculator = Desmos.GraphingCalculator(elt, {expressionsCollapsed:true, settingsMenu:false});
+  
+  calculator.setExpression({ id: 'graph1', latex: "" });
+</script>
 <script type="text/javascript">
   
+
+    function Graph(fx) {
+
+      //converting to latex
+
+      fx = fx.replace(/cos/g, "\\cos");
+      fx = fx.replace(/sin/g, "\\sin");
+      fx = fx.replace(/tan/g, "\\tan");
+
+      calculator.setExpression({ id: 'graph1', latex: fx });
+
+    }
+
     function Bisection() {
 
         const parser = math.parser()
@@ -80,6 +99,8 @@
         let tol = x.elements[3].value;
         let iter = x.elements[4].value;
         
+        Graph(fx);
+
         text = "";
 
         //fp0 = fxCalc(fx, p0);
