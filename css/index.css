@@ -43,13 +43,22 @@
     cursor: pointer;
     margin-left: 0px;
     border-radius: 4px;
-    width:35%;
+    width:100%;
 
     transition-duration: 0.4s;
   }
   input[type=button], input[type=submit]:hover, input[type=reset] {
     border: 2px solid black;
+    
   }
+  input[type=button], input[type=submit]:active, input[type=reset] {
+
+    transform: translateY(1px);
+    
+  }
+
+
+    
 
 
 
@@ -110,8 +119,8 @@
     padding-top: 0px;
     font-family: Montserrat, sans-serif;
     color: #333;
-    font-size: 2vw;
-    line-height: 50px;
+    font-size: 40px;
+    line-height: 30px;
     font-weight: 500;
     text-align: left;
     margin-bottom: -15px;
@@ -130,6 +139,7 @@
     line-height: 30px;
     text-align: left;
   }
+  
   
   .footersection {
     height: 350px;
@@ -199,10 +209,22 @@
     font-family: Montserrat, sans-serif;
   }
 
+  #calculator {
+    margin-right: auto;
+    margin-left: auto;
+
+    font-family: Montserrat, sans-serif;
+    color: #333;
+    font-size: 40px;
+    line-height: 30px;
+    font-weight: 500;
+    text-align: right;
+    margin-bottom: -15px;
+  }
+
   @media screen and (max-width: 1000px) {
-    .row-input, .row-label, input[type=submit] {
-      width: 100%;
-      margin-top: 0;
+    .row-input, .row-label {
+      
     }
     
 

@@ -35,17 +35,36 @@
           <div class="heroTitle">Secant Method</div>
           <div class="heroSubtitle">
             <form id="FPM">
-              <label for="lower">P0:</label><br>
-              <input type="text" id="p0" name="p0"><br>
-              <label for="upper">P1:</label><br>
-              <input type="text" id="p1" name="p1"><br>
-              <label for="fx">Function:</label><br>
-              <input type="text" id="fx" name="fx"><br>
-              <label for="tol">Tolerance:</label><br>
-              <input type="text" placeholder="Optional" id="tol" name="tol"><br>
-              
-              <label for="iter">Max Iterations:</label><br>
-              <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
+              <div class="row-label">
+                <label for="lower">P0:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="p0" name="p0"><br>
+              </div>
+              <div class="row-label">
+                <label for="upper">P1:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="p1" name="p1"><br>
+              </div>
+              <div class="row-label">
+                <label for="fx">Function:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="fx" name="fx"><br>
+              </div>
+              <div class="row-label">
+                <label for="tol">Tolerance:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="tol" name="tol"><br>
+              </div>
+              <div class="row-label">
+                <label for="iter">Max Iterations:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
+              </div>
             </form>
             <input type="submit" onclick="Bisection()" value="Submit">
             <input type="submit" onclick="location.reload()" value="Reset">

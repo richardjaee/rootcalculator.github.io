@@ -35,14 +35,30 @@
           <div class="heroTitle">Newton's Method</div>
           <div class="heroSubtitle">
             <form id="FPM">
-              <label for="lower">Initial Point:</label><br>
-              <input type="text" id="p0" name="lower"><br>
-              <label for="upper">Function:</label><br>
-              <input type="text" id="fx" name="upper"><br>
-              <label for="tol">Tolerance:</label><br>
-              <input type="text" placeholder="Optional" id="tol" name="tol"><br>
-              <label for="iter">Max Iterations:</label><br>
-              <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
+              <div class="row-label">
+                <label for="lower">Initial Point:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="p0" name="lower"><br>
+              </div>
+              <div class="row-label">
+                <label for="upper">Function:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="fx" name="upper"><br>
+              </div>
+              <div class="row-label">
+                <label for="tol">Tolerance:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="tol" name="tol"><br>
+              </div>
+              <div class="row-label">
+                <label for="iter">Max Iterations:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
+              </div>
             </form>
             <input type="submit" onclick="Bisection()" value="Submit">
             <input type="submit" onclick="location.reload()" value="Reset">
