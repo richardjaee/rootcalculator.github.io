@@ -16,14 +16,23 @@
     vertical-align: middle;
     display: inline-block;
   }
+  form {
+  }
+
+
   input {
     width: 70%;
     font-family: Montserrat, sans-serif;
     transition: width 0.4s ease-in-out;
+    padding: 10px 0px;
+    
   }
+  input[type=text]:hover,
   input[type=text]:focus {
-    border: 3px solid black;
+    outline: none;
+    border: 2px solid black;
   }
+
   input[type=button], input[type=submit], input[type=reset] {
     background-color: white;
     border: 1px solid black;
@@ -37,13 +46,13 @@
     width:35%;
 
     transition-duration: 0.4s;
-    
   }
-  input[type=button], input[type=submit], input[type=reset]:hover {
-    
-    color: black;
+  input[type=button], input[type=submit]:hover, input[type=reset] {
+    border: 2px solid black;
+  }
 
-  }
+
+
 
 
   .w-nav-link {
@@ -62,10 +71,15 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    width: 1100px;
+    width: 75%;
     margin-right: auto;
     margin-left: auto;
     background-color: #fff;
+    height: 64px;
+  }
+
+  .navbarsection {
+    margin-bottom: 10px;
   }
 
   .nav-link {
@@ -91,14 +105,16 @@
   }
   
   .heroTitle {
+    
     margin-top: 20px;
     padding-top: 0px;
     font-family: Montserrat, sans-serif;
     color: #333;
-    font-size: 40px;
+    font-size: 2vw;
     line-height: 50px;
     font-weight: 500;
     text-align: left;
+    margin-bottom: -15px;
   }
   
   .heroSubtitle {
@@ -133,9 +149,7 @@
     width: 70%;
   }
   
-  .navbarsection {
-    margin-bottom: 10px;
-  }
+  
 
   .footercol1 {
     margin-left: 150px;
@@ -147,7 +161,7 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    width: 1100px;
+    width: 75%;
     margin-right: auto;
     margin-left: auto;
     padding-top: 90px;
@@ -171,3 +185,29 @@
     font-weight: 600;
 
   }
+
+  .row-label {
+    width:30%;
+    margin-top: 10px;
+    font-family: Montserrat, sans-serif;
+    font-size: 1vw;
+  }
+
+  .row-input {
+    width:75%;
+    margin-top: 6px;
+    font-family: Montserrat, sans-serif;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .row-input, .row-label, input[type=submit] {
+      width: 100%;
+      margin-top: 0;
+    }
+    
+
+
+
+  }
+
+  
