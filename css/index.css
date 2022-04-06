@@ -59,10 +59,62 @@
 
 
     
+      
+  .div-block-25 {
+    width: 70%;
+  }
+  
+  
+  .div-block-24 {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 1100px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #fff;
+    
+  }
+  
+  .topnav-right {
+    float: right;
+    margin-right: 0;
+    margin-left: auto;
+  }
+  /* Add a black background color to the top navigation */
+  .topnav {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
 
-
-
-
+    justify-content: flex-end;
+    flex-grow: 1;
+    width: 1100px;
+    margin-right: 0;
+    margin-left: auto;
+    background-color: #fff;
+   
+  }
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+  }
+  
+  
+  /* Hide the link that should open and close the topnav on small screens */
+  .topnav .icon {
+    display: none;
+  }
 
   .w-nav-link {
     position: relative;
@@ -79,11 +131,11 @@
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex;
+    
     width: 75%;
     margin-right: auto;
     margin-left: auto;
-    background-color: #fff;
+    background-color: white;
     height: 64px;
   }
 
@@ -113,6 +165,15 @@
     background-color: #fff;
   }
   
+  .headerdiv {
+    width: 50%;
+  }
+
+  .container {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+
   .heroTitle {
     
     margin-top: 20px;
@@ -154,11 +215,7 @@
     color: #fff;
     font-weight: 500;
   }
-  
-  .div-block-25 {
-    width: 70%;
-  }
-  
+
   
 
   .footercol1 {
@@ -177,22 +234,12 @@
     padding-top: 90px;
   }
 
-  .div-block-24 {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    width: 1100px;
-    margin-right: auto;
-    margin-left: auto;
-    background-color: #fff;
-    
-  }
+
 
   .w-inline-block {
     margin-top: 20px;
-    font-family: Montserrat, sans-serif;
-    font-weight: 600;
+    
+    
 
   }
 
@@ -227,9 +274,28 @@
       
     }
     
-
-
-
   }
 
-  
+/* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+/* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
