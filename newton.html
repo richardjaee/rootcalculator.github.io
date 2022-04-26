@@ -16,7 +16,7 @@
             <a href="index.html" class="w-inline-block"><img src="images/root-256-2.png" loading="lazy" alt=""></a>
           </div>
         </div>
-        <div class="container w-container">
+        <div class="topnav" id="myTopnav">
           <nav role="navigation" class="w-nav-menu">
             <a href="index.html" class="nav-link w-nav-link">Bisection</a>
             <a href="newton.html" class="nav-link-2 w-nav-link">Newton's</a>
@@ -35,21 +35,38 @@
           <div class="heroTitle">Newton's Method</div>
           <div class="heroSubtitle">
             <form id="FPM">
-              <label for="lower">Initial Point:</label><br>
-              <input type="text" id="p0" name="lower"><br>
-              <label for="upper">Function:</label><br>
-              <input type="text" id="fx" name="upper"><br>
-              <label for="tol">Tolerance:</label><br>
-              <input type="text" placeholder="Optional" id="tol" name="tol"><br>
-              <label for="iter">Max Iterations:</label><br>
-              <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
+              <div class="row-label">
+                <label for="lower">Initial Point:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="p0" name="lower"><br>
+              </div>
+              <div class="row-label">
+                <label for="upper">Function:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="fx" name="upper"><br>
+              </div>
+              <div class="row-label">
+                <label for="tol">Tolerance:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="tol" name="tol"><br>
+              </div>
+              <div class="row-label">
+                <label for="iter">Max Iterations:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
+              </div>
             </form>
-            <button onclick="Bisection()">Submit</button>
+            <input type="submit" onclick="Bisection()" value="Submit">
+            <input type="submit" onclick="location.reload()" value="Reset">
 
             <p id="calculation"></p>
           </div>
         </div>
-        <div id="calculator" style="width: 800px; height: 500px; padding-top: 30px;"></div>
+        <div id="calculator" style="width: 560px; height: 500px; padding-top: 30px;"></div>
       </div>
     </div>
 

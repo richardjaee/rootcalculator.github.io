@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+  <head>
+    <title>Calculators</title>
+    <meta charset = "UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/mathjs@9.2.0/lib/browser/math.js"></script>
+    <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  </head>
+  <body>
+    <div class="navbarsection">
+      <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="navbar w-nav">
+        <div class="div-block-25">
+          <div class="div-block-24">
+            <a href="index.html" class="w-inline-block"><img src="images/root-256-2.png" loading="lazy" alt=""></a>
+          </div>
+        </div>
+        <div class="topnav" id="myTopnav">
+          <nav role="navigation" class="w-nav-menu">
+            <a href="index.html" class="nav-link w-nav-link">Bisection</a>
+            <a href="newton.html" class="nav-link-2 w-nav-link">Newton's</a>
+            <a href="secant.html" class="nav-link-3 w-nav-link">Secant</a>
+          </nav>
+          <div class="w-nav-button">
+            <div class="w-icon-nav-menu"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="herosection">
+      <div class="div1">
+
+        <div class="headerdiv">
+          <div class="heroTitle">Calculators</div>
+          <div class="heroSubtitle">
+            <form id="FPM">
+              <div class="row-label">
+                <label for="lower">Lower Bound:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="lower" name="lower"><br>
+              </div>
+              <div class="row-label">
+                <label for="upper">Upper Bound:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="upper" name="upper"><br>
+              </div>
+              <div class="row-label">
+                <label for="fx">Function:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="fx" name="fx"><br>
+              </div>
+              <div class="row-label">
+                <label for="tol">Tolerance:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="tol" name="tol"><br>
+              </div>
+              <div class="row-label">
+                <label for="iter">Max Iterations:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="iter" name="iter" ><br><br>
+              </div>
+            </form>
+            <input type="submit" onclick="Bisection()" value="Submit">
+            <input type="submit" onclick="location.reload()" value="Reset">
+            
+            <p id="calculation"></p>
+          </div>
+        </div>
+        <div id="calculator" style="width: 100%; height: auto; padding-top: 30px;"></div>
+
+      </div>
+    </div>
+
+    <div class="footersection">
+      <div class="footercol1"> 
+        <div class="footerName">Richard Chung</div>   
+      </div>
+      <div class="footercol2">   
+      </div>
+    </div>

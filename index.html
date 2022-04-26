@@ -13,20 +13,21 @@
       <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="navbar w-nav">
         <div class="div-block-25">
           <div class="div-block-24">
-            <a href="index.html" class="w-inline-block"><img src="images/root-256-2.png" loading="lazy" alt=""></a>
+            <a href="main.html" class="w-inline-block"><img src="images/root-256-2.png" loading="lazy" alt=""></a>
           </div>
         </div>
-        <div class="container w-container">
+        <div class="topnav" id="myTopnav">
           <nav role="navigation" class="w-nav-menu">
-            <a href="index.html" class="nav-link w-nav-link">Bisection</a>
-            <a href="newton.html" class="nav-link-2 w-nav-link">Newton's</a>
-            <a href="secant.html" class="nav-link-3 w-nav-link">Secant</a>
+            <div class="topnav-right">
+              <a href="index.html" class="nav-link w-nav-link">Bisection</a>
+              <a href="newton.html" class="nav-link-2 w-nav-link">Newton's</a>
+              <a href="secant.html" class="nav-link-3 w-nav-link">Secant</a> 
+            </div>
           </nav>
-          <div class="w-nav-button">
-            <div class="w-icon-nav-menu"></div>
-          </div>
         </div>
+        
       </div>
+      
     </div>
 
     <div class="herosection">
@@ -36,25 +37,44 @@
           <div class="heroTitle">Bisection Method</div>
           <div class="heroSubtitle">
             <form id="FPM">
-              <label for="lower">Lower Bound:</label><br>
-              <input type="text" id="lower" name="lower"><br>
-              <label for="upper">Upper Bound:</label><br>
-              <input type="text" id="upper" name="upper"><br>
-              <label for="fx">Function:</label><br>
-              <input type="text" id="fx" name="fx"><br>
-
-              <label for="tol">Tolerance:</label><br>
-              <input type="text" placeholder="Optional" id="tol" name="tol"><br>
-              
-              <label for="iter">Max Iterations:</label><br>
-              <input type="text" placeholder="Optional" id="iter" name="iter"><br><br>
+              <div class="row-label">
+                <label for="lower">Lower Bound:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="lower" name="lower"><br>
+              </div>
+              <div class="row-label">
+                <label for="upper">Upper Bound:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="upper" name="upper"><br>
+              </div>
+              <div class="row-label">
+                <label for="fx">Function:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" id="fx" name="fx"><br>
+              </div>
+              <div class="row-label">
+                <label for="tol">Tolerance:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="tol" name="tol"><br>
+              </div>
+              <div class="row-label">
+                <label for="iter">Max Iterations:</label><br>
+              </div>
+              <div class="row-input">
+                <input type="text" placeholder="Optional" id="iter" name="iter" ><br><br>
+              </div>
             </form>
-            <button onclick="Bisection()" >Submit</button>
+            <input type="submit" onclick="Bisection()" value="Submit">
+            <input type="submit" onclick="location.reload()" value="Reset">
             
             <p id="calculation"></p>
           </div>
         </div>
-        <div id="calculator" style="width: 800px; height: 500px; padding-top: 30px;"></div>
+        <div id="calculator" style="width: 100%; height: auto; margin-top: 20px;"></div>
 
       </div>
     </div>
@@ -77,7 +97,7 @@
 
 <script type="text/javascript">
 
-    function Graph(fx) {
+    function Graph(fx, lower, upper) {
 
       //converting to latex
       fx = fx.replace(/cos/g, "\\cos");
@@ -85,6 +105,12 @@
       fx = fx.replace(/tan/g, "\\tan");
       
       calculator.setExpression({ id: 'graph1', latex: fx });
+
+      lower = 'x=' + lower;
+      upper = 'x=' + upper;
+
+      calculator.setExpression({ id: 'graph2', latex: lower, lineStyle: Desmos.Styles.DASHED });
+      calculator.setExpression({ id: 'graph3', latex: upper, lineStyle: Desmos.Styles.DASHED });
 
     }
   
@@ -103,7 +129,7 @@
         let tol = x.elements[3].value;
         let iter = x.elements[4].value;
         
-        Graph(fx);
+        Graph(fx, lower, upper);
 
         text = "";
 
