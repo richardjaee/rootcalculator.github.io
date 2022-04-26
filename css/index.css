@@ -43,7 +43,7 @@
     cursor: pointer;
     margin-left: 0px;
     border-radius: 4px;
-    width:100%;
+    width:53%;
 
     transition-duration: 0.4s;
   }
@@ -177,11 +177,10 @@
   .heroTitle {
     
     margin-top: 20px;
-    padding-top: 0px;
     font-family: Montserrat, sans-serif;
     color: #333;
     font-size: 40px;
-    line-height: 30px;
+    line-height: 40px;
     font-weight: 500;
     text-align: left;
     margin-bottom: -15px;
@@ -201,6 +200,10 @@
     text-align: left;
   }
   
+  .w-nav-menu {
+    position: static;
+    float: right;
+  }
   
   .footersection {
     height: 350px;
@@ -269,9 +272,9 @@
     margin-bottom: -15px;
   }
 
-  @media screen and (max-width: 1000px) {
-    .row-input, .row-label {
-      
+  @media screen and (max-width: 800px) {
+    #calculator {
+      display: none;
     }
     
   }
