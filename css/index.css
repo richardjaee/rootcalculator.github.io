@@ -24,7 +24,7 @@
     width: 70%;
     font-family: Montserrat, sans-serif;
     transition: width 0.4s ease-in-out;
-    padding: 10px 0px;
+    padding: 10px 10px;
     
   }
   input[type=text]:hover,
@@ -43,7 +43,7 @@
     cursor: pointer;
     margin-left: 0px;
     border-radius: 4px;
-    width:53%;
+    width:57.3%;
 
     transition-duration: 0.4s;
   }
