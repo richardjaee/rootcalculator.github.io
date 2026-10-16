@@ -821,7 +821,8 @@ export class Plot {
     for (const r of this.roots) {
       const rx = this.sx(r);
       const ry = this.sy(this.kind === 'g' ? r : 0);
-      if (Math.hypot(rx - px, ry - py) < 12) return r;
+      // generous radius so markers are easy to hit with a finger
+      if (Math.hypot(rx - px, ry - py) < 18) return r;
     }
     return null;
   }
@@ -832,6 +833,7 @@ export class Plot {
     const pts = new Map<number, { px: number; py: number }>();
     let lastPinch: number | null = null;
     let downAt: { px: number; py: number } | null = null;
+    let tapTimer: ReturnType<typeof setTimeout> | undefined;
     const local = (e: PointerEvent | WheelEvent | MouseEvent) => {
       const r = el.getBoundingClientRect();
       return { px: e.clientX - r.left, py: e.clientY - r.top };
@@ -872,12 +874,7 @@ export class Plot {
         userMoved();
       }
     };
-    const up = (e: PointerEvent) => {
-      const p = local(e);
-      if (downAt && pts.size === 1 && Math.hypot(p.px - downAt.px, p.py - downAt.py) < 4) {
-        const r = this.nearRoot(p.px, p.py);
-        if (r != null) this.onPickRoot?.(r);
-      }
+    const release = (e: PointerEvent) => {
       pts.delete(e.pointerId);
       lastPinch = null;
       downAt = null;
@@ -886,8 +883,23 @@ export class Plot {
         el.classList.remove('dragging');
       }
     };
-    const leave = () => {
-      this.hover = null;
+    const up = (e: PointerEvent) => {
+      const p = local(e);
+      // a tap (no drag): pick a marked root, or on touch screens show the readout there
+      if (downAt && pts.size === 1 && Math.hypot(p.px - downAt.px, p.py - downAt.py) < 8) {
+        const r = this.nearRoot(p.px, p.py);
+        if (r != null) this.onPickRoot?.(r);
+        else if (e.pointerType !== 'mouse') {
+          this.hover = p;
+          clearTimeout(tapTimer);
+          tapTimer = setTimeout(() => (this.hover = null), 2500);
+        }
+      }
+      release(e);
+    };
+    const leave = (e: PointerEvent) => {
+      // touch pointers "leave" right after every tap; keep the tap readout visible
+      if (e.pointerType === 'mouse') this.hover = null;
     };
     const wheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -900,7 +912,8 @@ export class Plot {
     el.addEventListener('pointerdown', down);
     el.addEventListener('pointermove', move);
     el.addEventListener('pointerup', up);
-    el.addEventListener('pointercancel', up);
+    // fires when the browser takes over a vertical swipe to scroll the page
+    el.addEventListener('pointercancel', release);
     el.addEventListener('pointerleave', leave);
     el.addEventListener('wheel', wheel, { passive: false });
     el.addEventListener('dblclick', dbl);
@@ -908,7 +921,8 @@ export class Plot {
       el.removeEventListener('pointerdown', down);
       el.removeEventListener('pointermove', move);
       el.removeEventListener('pointerup', up);
-      el.removeEventListener('pointercancel', up);
+      el.removeEventListener('pointercancel', release);
+      clearTimeout(tapTimer);
       el.removeEventListener('pointerleave', leave);
       el.removeEventListener('wheel', wheel);
       el.removeEventListener('dblclick', dbl);

@@ -99,12 +99,21 @@ export default function App() {
   }, [solve, init]);
 
   const scrollToWorkspace = () => document.getElementById('workspace')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // on phones the graph sits below the controls, so bring it into view after solving
+  const narrow = () => matchMedia('(max-width: 1100px)').matches;
+  const revealGraph = () => {
+    // wait for React to re-render the controls (their height can change) before measuring
+    if (narrow()) setTimeout(() => document.getElementById('graph')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  };
 
   const load = (m: MethodId, v: Values, scroll = true) => {
     setMethod(m);
     setValues((prev) => ({ ...prev, [m]: { ...v } }));
     solve(m, v);
-    if (scroll) scrollToWorkspace();
+    if (scroll) {
+      if (narrow()) revealGraph();
+      else scrollToWorkspace();
+    }
   };
 
   const selectMethod = (m: MethodId) => {
@@ -186,7 +195,9 @@ export default function App() {
               if (errors[k]) setErrors(({ [k]: _, ...rest }) => rest);
             }}
             errors={errors}
-            onSolve={() => solve(method, values[method])}
+            onSolve={() => {
+              if (solve(method, values[method])) revealGraph();
+            }}
             onShare={() => {
               if (!solve(method, values[method])) return;
               navigator.clipboard.writeText(location.href).then(
@@ -197,6 +208,7 @@ export default function App() {
             onPreset={(v) => {
               setActiveExample(null);
               load(method, v, false);
+              revealGraph();
             }}
           />
           <section className="stage">

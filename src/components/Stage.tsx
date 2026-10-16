@@ -52,7 +52,7 @@ export function Graph({ theme, onPickRoot }: { theme: string; onPickRoot: (x: nu
   }, [theme]);
 
   return (
-    <div className="panel graph-panel reveal" style={{ ['--d' as string]: '160ms' }}>
+    <div className="panel graph-panel reveal" id="graph" style={{ ['--d' as string]: '160ms' }}>
       <div className="graph-wrap">
         <canvas ref={canvasRef} />
         <div className="graph-tip" ref={tipRef} />
