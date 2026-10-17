@@ -6,7 +6,14 @@ const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 2.2, strokeL
 
 export const Logo = (p: P) => (
   <svg {...base(p)} viewBox="0 0 32 32">
-    <path className="logo-path" d="M4 18 L9 18 L13 26 L19 6 L28 6" {...stroke} strokeWidth={3} />
+    <g {...stroke} strokeWidth={2.2}>
+      <circle cx="16" cy="5" r="3" />
+      <path d="M16 8v7M16 15c-2 3-5.5 4-8 4M16 15c2 3 5.5 4 8 4M16 15c-1.5 3-3.5 5-4.5 8.5M16 15c1.5 3 3.5 5 4.5 8.5" />
+      <circle cx="5.5" cy="19" r="2.5" />
+      <circle cx="26.5" cy="19" r="2.5" />
+      <circle cx="10.8" cy="26.5" r="2.5" />
+      <circle cx="21.2" cy="26.5" r="2.5" />
+    </g>
   </svg>
 );
 export const GitHub = (p: P) => (

@@ -1,7 +1,5 @@
-import { motion } from 'framer-motion';
-import { FAMILY_LABEL, METHODS, METHOD_COLOR, METHOD_ORDER } from '../lib/meta';
+import { FAMILY_LABEL, METHODS, METHOD_ORDER } from '../lib/meta';
 import type { MethodId } from '../lib/methods';
-import { Arrow } from './icons';
 import { Section } from './Section';
 import { Tex } from './Tex';
 
@@ -20,23 +18,14 @@ export function Guide({ onPick }: { onPick: (m: MethodId) => void }) {
   return (
     <Section
       id="guide"
-      eyebrow="Field guide"
-      title="Know your methods"
-      lede="Each method trades guaranteed convergence against speed. Bracketing methods always find a root but take more steps. Open methods are faster but can fly off. Fixed-point methods iterate x = g(x) directly."
+      title="Methods"
+      lede="The trade-off is safety against speed. Bracketing methods always find a root but take more steps. Open methods are faster but can wander off. Fixed-point methods iterate x = g(x) directly."
     >
       <div className="guide-grid">
-        {METHOD_ORDER.map((id, i) => {
+        {METHOD_ORDER.map((id) => {
           const m = METHODS[id];
           return (
-            <motion.article
-              key={id}
-              className="panel guide-card"
-              style={{ ['--mc' as string]: METHOD_COLOR[id] }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: (i % 4) * 0.06 }}
-            >
+            <article key={id} className="guide-card">
               <header>
                 <h3>{m.name}</h3>
                 <span className="family">{FAMILY_LABEL[m.family]}</span>
@@ -62,23 +51,16 @@ export function Guide({ onPick }: { onPick: (m: MethodId) => void }) {
                   </li>
                 ))}
               </ul>
-              <button className="guide-try" onClick={() => onPick(id)}>
-                Use {m.name} <Arrow size={14} />
+              <button className="linkish guide-try" onClick={() => onPick(id)}>
+                Use {m.name}
               </button>
-            </motion.article>
+            </article>
           );
         })}
 
-        <motion.article
-          className="panel guide-card syntax"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, delay: 0.18 }}
-        >
+        <article className="guide-card syntax">
           <header>
             <h3>Writing functions</h3>
-            <span className="family">Syntax</span>
           </header>
           <table>
             <tbody>
@@ -98,7 +80,7 @@ export function Guide({ onPick }: { onPick: (m: MethodId) => void }) {
           <p className="syntax-note">
             Numeric fields accept expressions too, so <code>pi/2</code> or <code>sqrt(2)</code> work as starting points. You can type <code>f(x) =</code> or leave it off.
           </p>
-        </motion.article>
+        </article>
       </div>
     </Section>
   );

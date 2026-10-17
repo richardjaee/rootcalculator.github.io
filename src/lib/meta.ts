@@ -374,18 +374,18 @@ export const METHOD_ORDER: MethodId[] = [
 ];
 
 export const METHOD_COLOR: Record<MethodId, string> = {
-  bisection: '#a78bfa',
-  falsi: '#818cf8',
-  illinois: '#c084fc',
-  ridders: '#e879f9',
-  itp: '#2dd4bf',
-  brent: '#60a5fa',
-  newton: '#22d3ee',
-  secant: '#34d399',
-  halley: '#fbbf24',
-  muller: '#a3e635',
-  fixed: '#f472b6',
-  steffensen: '#fb923c',
+  bisection: '#2457b3',
+  falsi: '#5b8bd9',
+  illinois: '#3a8f5a',
+  ridders: '#8a5a2b',
+  itp: '#14838c',
+  brent: '#6a46b0',
+  newton: '#c8322a',
+  secant: '#e07a1f',
+  halley: '#b5367a',
+  muller: '#9a8a00',
+  fixed: '#7d7a72',
+  steffensen: '#1f9e8f',
 };
 
 export function defaultValues(): Record<MethodId, Values> {

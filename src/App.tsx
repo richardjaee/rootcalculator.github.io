@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Footer, Hero, Toast, TopBar } from './components/Chrome';
+import { Footer, Intro, Toast, TopBar } from './components/Chrome';
 import { Controls } from './components/Controls';
 import { Examples } from './components/Examples';
 import { Guide } from './components/Guide';
@@ -141,7 +141,7 @@ export default function App() {
       }
       setActiveExample(null);
       load(method, v, false);
-      toast('Solving near the root you picked');
+      toast('Solving near that root');
     },
     [method, values],
   );
@@ -163,16 +163,10 @@ export default function App() {
 
   return (
     <>
-      <div className="aurora" aria-hidden>
-        <span className="blob b1" />
-        <span className="blob b2" />
-        <span className="blob b3" />
-      </div>
-      <div className="grain" aria-hidden />
       <TopBar theme={theme} onToggleTheme={toggleTheme} />
 
       <main className="shell">
-        <Hero
+        <Intro
           onLoad={(ex) => {
             setActiveExample(ex.id);
             load(ex.method, ex.values);
@@ -201,7 +195,7 @@ export default function App() {
             onShare={() => {
               if (!solve(method, values[method])) return;
               navigator.clipboard.writeText(location.href).then(
-                () => toast('Link copied ✓'),
+                () => toast('Link copied'),
                 () => toast('Couldn’t access the clipboard'),
               );
             }}

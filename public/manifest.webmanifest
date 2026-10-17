@@ -1,12 +1,12 @@
 {
-  "name": "Root Finder",
-  "short_name": "Root Finder",
+  "name": "Root Calculator",
+  "short_name": "Root Calculator",
   "description": "Watch twelve root-finding methods hunt for f(x) = 0, one animated step at a time.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#07070d",
-  "theme_color": "#07070d",
+  "background_color": "#fbfaf6",
+  "theme_color": "#fbfaf6",
   "icons": [
     { "src": "images/root-128.png", "sizes": "128x128", "type": "image/png" },
     { "src": "images/root-256.png", "sizes": "256x256", "type": "image/png" }

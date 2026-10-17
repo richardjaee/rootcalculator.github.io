@@ -13,13 +13,13 @@ export interface Example {
   answer?: string;
 }
 
-export const CATEGORIES: { id: Category | 'all'; label: string; emoji: string }[] = [
-  { id: 'all', label: 'All', emoji: '✦' },
-  { id: 'classics', label: 'Classics', emoji: '📐' },
-  { id: 'constants', label: 'Famous constants', emoji: '✨' },
-  { id: 'science', label: 'Science & finance', emoji: '🔭' },
-  { id: 'fixed', label: 'Cobwebs & chaos', emoji: '🕸️' },
-  { id: 'trouble', label: 'Troublemakers', emoji: '💥' },
+export const CATEGORIES: { id: Category | 'all'; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'classics', label: 'Classics' },
+  { id: 'constants', label: 'Famous constants' },
+  { id: 'science', label: 'Science & finance' },
+  { id: 'fixed', label: 'Cobwebs & chaos' },
+  { id: 'trouble', label: 'Troublemakers' },
 ];
 
 export const EXAMPLES: Example[] = [

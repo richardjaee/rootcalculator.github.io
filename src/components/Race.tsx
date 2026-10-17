@@ -4,7 +4,6 @@ import { usePlay } from '../lib/engine';
 import { METHODS, METHOD_COLOR, type Values } from '../lib/meta';
 import { fmt, type MethodId } from '../lib/methods';
 import { race, type RaceEntry } from '../lib/solve';
-import { Flag } from './icons';
 import { Section } from './Section';
 
 const W = 640;
@@ -39,20 +38,18 @@ export function Race({ onLoad }: { onLoad: (m: MethodId, v: Values) => void }) {
   const xTicks: number[] = [];
   const xStep = maxSteps > 30 ? 10 : maxSteps > 12 ? 5 : 2;
   for (let i = xStep; i <= maxSteps; i += xStep) xTicks.push(i);
-  const winner = sorted[0]?.result.status === 'converged' ? sorted[0] : null;
 
   return (
     <Section
       id="race"
-      eyebrow="Method race"
-      title="Which method wins?"
+      title="Race"
       lede={
         run ? (
           <>
-            Every method runs on <code>{run.src}</code> from comparable starting points. Lines that fall faster and steeper are converging faster. Click any row to load that run above.
+            All {entries.length} methods on <code>{run.src}</code>, from comparable starting points. The chart plots each one's error per step, so steeper means faster. Click a row to load that run.
           </>
         ) : (
-          'Solve something above to start a race.'
+          'Solve something above and every method will race on it.'
         )
       }
     >
@@ -86,24 +83,24 @@ export function Race({ onLoad }: { onLoad: (m: MethodId, v: Values) => void }) {
                     d={d}
                     fill="none"
                     stroke={METHOD_COLOR[e.method]}
-                    strokeWidth={hover === e.method ? 3.2 : 2.2}
+                    strokeWidth={hover === e.method ? 2.6 : 1.6}
                     strokeLinejoin="round"
                     strokeLinecap="round"
-                    strokeDasharray={e.result.status === 'converged' ? undefined : '5 5'}
+                    strokeDasharray={e.result.status === 'converged' ? undefined : '4 4'}
                     initial={{ pathLength: 0 }}
                     whileInView={{ pathLength: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 1.4, delay: idx * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 1, delay: idx * 0.06, ease: 'easeOut' }}
                   />
                   <motion.circle
                     cx={X(last[0])}
                     cy={Y(last[1])}
-                    r={4}
+                    r={3}
                     fill={METHOD_COLOR[e.method]}
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 1.2 + idx * 0.12, type: 'spring' }}
+                    transition={{ delay: 0.9 + idx * 0.06, duration: 0.2 }}
                   />
                 </g>
               );
@@ -118,7 +115,7 @@ export function Race({ onLoad }: { onLoad: (m: MethodId, v: Values) => void }) {
             const status =
               r.status === 'converged' ? `${steps} step${steps === 1 ? '' : 's'}` : r.status === 'maxiter' ? `no luck in ${steps}` : 'failed';
             return (
-              <motion.button
+              <button
                 key={e.method}
                 className={'race-row ' + r.status}
                 onMouseEnter={() => setHover(e.method)}
@@ -129,9 +126,12 @@ export function Race({ onLoad }: { onLoad: (m: MethodId, v: Values) => void }) {
                 title={r.message ?? e.note}
                 style={{ ['--mc' as string]: METHOD_COLOR[e.method] }}
               >
-                <span className="race-rank">{r.status === 'converged' ? (e === winner ? <Flag size={14} /> : i + 1) : '–'}</span>
+                <span className="race-rank">{r.status === 'converged' ? i + 1 : '–'}</span>
                 <span className="race-name">
-                  {METHODS[e.method].name}
+                  <span>
+                    <i />
+                    {METHODS[e.method].name}
+                  </span>
                   <small>{e.note}</small>
                 </span>
                 <span className="race-bar">
@@ -139,13 +139,13 @@ export function Race({ onLoad }: { onLoad: (m: MethodId, v: Values) => void }) {
                     initial={{ width: 0 }}
                     whileInView={{ width: `${Math.max(4, (Math.min(steps, maxSteps) / maxSteps) * 100)}%` }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.9, delay: 0.2 + i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.6, delay: 0.1 + i * 0.04, ease: 'easeOut' }}
                     key={run!.id}
                   />
                 </span>
                 <span className="race-status">{status}</span>
                 <span className="race-root">{r.status === 'failed' ? '—' : fmt(r.root, 9)}</span>
-              </motion.button>
+              </button>
             );
           })}
         </div>

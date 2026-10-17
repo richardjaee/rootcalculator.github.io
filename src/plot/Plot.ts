@@ -280,7 +280,7 @@ export class Plot {
     }
     ctx.stroke();
     ctx.fillStyle = col.label;
-    ctx.font = '500 11px "JetBrains Mono", monospace';
+    ctx.font = '500 11px "IBM Plex Mono", monospace';
     const ly = clamp(ax + 15, 15, h - 6);
     ctx.textAlign = 'center';
     for (let x = Math.ceil(v.x0 / stepX) * stepX; x <= v.x1; x += stepX) {
@@ -347,11 +347,7 @@ export class Plot {
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.strokeStyle = color;
-    ctx.globalAlpha = 0.18;
-    ctx.lineWidth = 9;
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-    ctx.lineWidth = 2.6;
+    ctx.lineWidth = 2;
     ctx.stroke();
     ctx.restore();
     if (progress < 1 && pen) this.dotPx(hx, hy, 5, color, true);
@@ -414,13 +410,7 @@ export class Plot {
     if (r <= 0 || !ok(px) || !ok(py)) return;
     const { ctx } = this;
     ctx.save();
-    if (glow) {
-      ctx.fillStyle = color;
-      ctx.globalAlpha = 0.22 * alpha;
-      ctx.beginPath();
-      ctx.arc(px, py, r * 2.4, 0, 7);
-      ctx.fill();
-    }
+    if (glow) r *= 0.85;
     ctx.globalAlpha = alpha;
     ctx.fillStyle = color;
     ctx.beginPath();
@@ -438,14 +428,14 @@ export class Plot {
     const py = this.sy(y) + dy;
     if (!ok(px) || !ok(py) || px < -50 || px > this.w + 50 || py < -20 || py > this.h + 20) return;
     ctx.save();
-    ctx.font = '600 11.5px "JetBrains Mono", monospace';
+    ctx.font = '500 11.5px "IBM Plex Mono", monospace';
     const tw = ctx.measureText(text).width + 12;
     const bx = clamp(px - tw / 2, 4, this.w - tw - 4);
     const by = clamp(py - 10, 4, this.h - 24);
     ctx.fillStyle = this.col.bg;
     ctx.globalAlpha = 0.85 * alpha;
     ctx.beginPath();
-    ctx.roundRect(bx, by, tw, 20, 6);
+    ctx.roundRect(bx, by, tw, 20, 2);
     ctx.fill();
     ctx.globalAlpha = alpha;
     ctx.strokeStyle = color;
@@ -519,14 +509,23 @@ export class Plot {
       const { ctx, col } = this;
       const px = this.sx(s.root);
       const py = this.sy(ry);
-      for (let i = 0; i < 2; i++) {
-        const p = (age * 0.7 + i * 0.5) % 1;
+      // circle the answer in red pen, slightly off-round like it was drawn by hand
+      const draw = easeOut(age * 1.6);
+      if (ok(px) && ok(py)) {
         ctx.save();
         ctx.strokeStyle = col.root;
-        ctx.globalAlpha = (1 - p) * 0.8;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.8;
+        ctx.lineCap = 'round';
         ctx.beginPath();
-        ctx.arc(px, py, 6 + p * 26, 0, 7);
+        const start = -2.2;
+        const sweep = Math.PI * 2.15 * draw;
+        for (let a = 0; a <= sweep; a += 0.08) {
+          const r = 15 + 1.6 * Math.sin(a * 1.5 + 0.6);
+          const x = px + r * 1.12 * Math.cos(start + a);
+          const y = py + r * Math.sin(start + a);
+          if (a === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
         ctx.stroke();
         ctx.restore();
       }

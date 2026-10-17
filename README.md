@@ -1,4 +1,4 @@
-# Root Finder
+# Root Calculator
 
 **Live:** https://richardjaee.github.io/rootcalculator.github.io/
 

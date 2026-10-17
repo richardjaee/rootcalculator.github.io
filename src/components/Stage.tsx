@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { engine, usePlay } from '../lib/engine';
-import { METHODS, METHOD_COLOR } from '../lib/meta';
+import { METHODS } from '../lib/meta';
 import { fmt, type MethodId } from '../lib/methods';
 import { Plot } from '../plot/Plot';
-import { Copy, End, Fit, Minus, Next, Pause, Play, Plus, Prev, Restart, Roots, Target } from './icons';
+import { End, Fit, Minus, Next, Pause, Play, Plus, Prev, Restart, Roots, Target } from './icons';
 
 const LEGEND: Record<MethodId, [string, string][]> = {
   bisection: [['f(x)', '--c-curve'], ['bracket', '--c-curve-2'], ['midpoint', '--c-step']],
@@ -52,7 +52,7 @@ export function Graph({ theme, onPickRoot }: { theme: string; onPickRoot: (x: nu
   }, [theme]);
 
   return (
-    <div className="panel graph-panel reveal" id="graph" style={{ ['--d' as string]: '160ms' }}>
+    <div className="panel graph-panel" id="graph">
       <div className="graph-wrap">
         <canvas ref={canvasRef} />
         <div className="graph-tip" ref={tipRef} />
@@ -68,10 +68,10 @@ export function Graph({ theme, onPickRoot }: { theme: string; onPickRoot: (x: nu
         )}
         <div className="graph-tools">
           <button className="chip-btn" aria-pressed={follow} onClick={() => engine.setFollow(!follow)} title="Camera follows the iterations">
-            <Target size={14} /> Follow
+            <Target size={13} /> Follow
           </button>
           <button className="chip-btn" aria-pressed={showAll} onClick={() => engine.setShowAll(!showAll)} title="Mark every root in view (click one to solve there)">
-            <Roots size={14} /> All roots
+            <Roots size={13} /> All roots
           </button>
           <div className="chip-group">
             <button className="chip-btn icon" onClick={() => engine.zoom(0.7)} aria-label="Zoom in">
@@ -150,90 +150,65 @@ function Player() {
 
 const visibleOf = (ph: number, n: number) => Math.min(n, Math.floor(ph + 0.85));
 
-function useScramble(text: string, active: boolean) {
-  const [out, setOut] = useState(text);
-  useEffect(() => {
-    if (!active || matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setOut(text);
-      return;
-    }
-    const chars = text.split('');
-    const start = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const p = (now - start) / 650;
-      setOut(chars.map((c, i) => (/\d/.test(c) && p < (i + 1) / chars.length ? String((Math.random() * 10) | 0) : c)).join(''));
-      if (p < 1) raf = requestAnimationFrame(tick);
-      else setOut(text);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [text, active]);
-  return out;
-}
-
 export function RootCard({ theme, toast }: { theme: string; toast: (m: string) => void }) {
   const run = usePlay((s) => s.run);
   const done = usePlay((s) => s.done);
   const visible = usePlay((s) => (s.run ? visibleOf(s.ph, s.run.steps.length) : 0));
   const n = run?.steps.length ?? 0;
 
-  let badge: [string, string] = ['', 'Ready'];
+  let badge: [string, string] = ['', ''];
   let value = '—';
   let meta = ' ';
   let err = false;
   if (run && !done) {
-    badge = ['run', 'Iterating'];
+    badge = ['run', 'working…'];
     value = visible > 0 ? fmt(run.steps[visible - 1].x, 12) : '…';
-    meta = visible > 0 ? `iteration ${visible} of ${n}` : 'warming up';
+    meta = visible > 0 ? `iteration ${visible} of ${n}` : 'starting';
   } else if (run) {
     const name = run.kind === 'g' ? 'g(x) − x' : 'f(x)';
     const fr = run.kind === 'g' ? run.fns.f(run.root) - run.root : run.fns.f(run.root);
     if (run.status === 'failed') {
-      badge = ['bad', 'Failed'];
+      badge = ['bad', 'failed'];
       meta = run.message ?? 'The method failed.';
       err = true;
     } else if (run.status === 'converged') {
-      badge = ['good', n ? `Converged · ${n} step${n === 1 ? '' : 's'}` : 'Exact'];
+      badge = ['good', n ? `converged in ${n} step${n === 1 ? '' : 's'}` : 'exact'];
       value = fmt(run.root, 12);
       meta = `${name} = ${fmt(fr, 4)}`;
     } else {
-      badge = ['warn', `Stopped at ${n} steps`];
+      badge = ['warn', `stopped after ${n} steps`];
       value = fmt(run.root, 12);
       meta = `${name} = ${fmt(fr, 4)} · try more iterations`;
     }
   }
   const finalReady = !!run && done && run.status !== 'failed';
-  const shown = useScramble(value, finalReady);
-  const celebrate = finalReady && run!.status === 'converged';
 
   return (
-    <div className="panel root-card reveal" style={{ ['--d' as string]: '240ms' }}>
-      {celebrate && <span className="celebrate" key={run!.id} />}
+    <div className="panel root-card">
       <div className="root-head">
-        <span className="eyebrow">Root</span>
-        <span className={'badge ' + badge[0]}>{badge[1]}</span>
+        <span className="label">Root</span>
+        <span className={'status ' + badge[0]}>{badge[1]}</span>
       </div>
-      <div className={'root-value' + (finalReady ? ' done' : '')}>{finalReady ? shown : value}</div>
+      <div className={'root-value' + (finalReady && run!.status === 'converged' ? ' done' : '')}>{value}</div>
       <div className={'root-meta' + (err ? ' err' : '')}>{meta}</div>
       <div className="spark-wrap">
         <div className="spark-head">
-          <span className="eyebrow">Convergence</span>
+          <span className="label">Error per step</span>
           <span className="spark-note">log₁₀ |Δ|</span>
         </div>
         <Sparkline theme={theme} />
       </div>
       <button
-        className="btn ghost small"
+        className="btn small"
         disabled={!run || !Number.isFinite(run.root) || run.status === 'failed'}
         onClick={() => {
           navigator.clipboard.writeText(String(run!.root)).then(
-            () => toast('Root copied ✓'),
+            () => toast('Root copied'),
             () => toast('Couldn’t access the clipboard'),
           );
         }}
       >
-        <Copy size={14} /> Copy root
+        Copy root
       </button>
     </div>
   );
@@ -267,8 +242,8 @@ function Sparkline({ theme }: { theme: string }) {
     ctx.clearRect(0, 0, W, H);
     if (!run || !run.steps.length) return;
     const css = getComputedStyle(document.documentElement);
-    const c1 = css.getPropertyValue('--accent').trim();
-    const c2 = css.getPropertyValue('--accent-2').trim();
+    const ink = css.getPropertyValue('--ink').trim();
+    const red = css.getPropertyValue('--red').trim();
     const faint = css.getPropertyValue('--faint').trim();
     const vals = run.steps.map((s) => Math.log10(Math.max(Math.abs(s.err), 1e-17)));
     const tolL = Math.log10(run.tol);
@@ -291,7 +266,7 @@ function Sparkline({ theme }: { theme: string }) {
     ctx.stroke();
     ctx.restore();
     ctx.fillStyle = faint;
-    ctx.font = '10px "JetBrains Mono", monospace';
+    ctx.font = '10px "IBM Plex Mono", monospace';
     ctx.textAlign = 'right';
     ctx.fillText('tol', W - 2, Y(tolL) - 4);
 
@@ -306,29 +281,22 @@ function Sparkline({ theme }: { theme: string }) {
       const [bx, by] = pts[pts.length - 1];
       pts[pts.length - 1] = [ax + (bx - ax) * t, ay + (by - ay) * t];
     }
-    const grad = ctx.createLinearGradient(0, 0, W, 0);
-    grad.addColorStop(0, c1);
-    grad.addColorStop(1, c2);
-    ctx.beginPath();
-    ctx.moveTo(pts[0][0], H);
-    pts.forEach(([x, y]) => ctx.lineTo(x, y));
-    ctx.lineTo(pts[pts.length - 1][0], H);
-    ctx.closePath();
-    const ag = ctx.createLinearGradient(0, 0, 0, H);
-    ag.addColorStop(0, c2 + '40');
-    ag.addColorStop(1, c2 + '00');
-    ctx.fillStyle = ag;
-    ctx.fill();
     ctx.beginPath();
     pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = ink;
+    ctx.lineWidth = 1.5;
     ctx.lineJoin = 'round';
     ctx.stroke();
+    ctx.fillStyle = ink;
+    for (const [x, y] of pts.slice(0, -1)) {
+      ctx.beginPath();
+      ctx.arc(x, y, 1.8, 0, 7);
+      ctx.fill();
+    }
     const [ex, ey] = pts[pts.length - 1];
-    ctx.fillStyle = c2;
+    ctx.fillStyle = red;
     ctx.beginPath();
-    ctx.arc(ex, ey, 3.5, 0, 7);
+    ctx.arc(ex, ey, 3, 0, 7);
     ctx.fill();
   }, [run, ph, theme, size]);
 
@@ -351,14 +319,10 @@ export function IterTable() {
   const cols = run ? METHODS[run.method].cols : [];
   const n = run?.steps.length ?? 0;
   return (
-    <div className="panel table-card reveal" style={{ ['--d' as string]: '320ms' }}>
+    <div className="panel table-card">
       <div className="table-title">
-        <span className="eyebrow">Iterations</span>
-        {run && (
-          <span className="method-chip" style={{ ['--mc' as string]: METHOD_COLOR[run.method] }}>
-            {METHODS[run.method].name}
-          </span>
-        )}
+        <span className="label">Iterations</span>
+        {run && <span className="method-name">{METHODS[run.method].name}</span>}
       </div>
       <div className="table-scroll" ref={scroller}>
         <table>
